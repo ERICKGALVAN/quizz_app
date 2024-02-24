@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:quizz_app/auth/presentation/screens/register_screen.dart';
+import 'package:quizz_app/auth/presentation/widgets/password_textfield.dart';
 import 'package:quizz_app/config/routes/routes.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  bool _isPasswordVisible = false;
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +48,9 @@ class LoginScreen extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
-                    const TextField(
-                      decoration: InputDecoration(
+                    TextField(
+                      controller: _usernameController,
+                      decoration: const InputDecoration(
                         hintText: 'Username',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
@@ -53,17 +64,13 @@ class LoginScreen extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
-                    const TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Password',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(
-                              20,
-                            ),
-                          ),
-                        ),
-                      ),
+                    PasswordTextfield(
+                      controller: _passwordController,
+                      isPasswordVisible: _isPasswordVisible,
+                      onPressed: () {
+                        _isPasswordVisible = !_isPasswordVisible;
+                        setState(() {});
+                      },
                     ),
                     const SizedBox(
                       height: 20,
