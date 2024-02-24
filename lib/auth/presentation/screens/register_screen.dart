@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quizz_app/auth/data/datasources/auth_service.dart';
+import 'package:quizz_app/auth/presentation/providers/auth_provider.dart';
 import 'package:quizz_app/auth/presentation/screens/login_screen.dart';
 import 'package:quizz_app/auth/presentation/widgets/password_textfield.dart';
 import 'package:quizz_app/config/routes/routes.dart';
 
-class RegisterScreen extends StatefulWidget {
+class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  ConsumerState<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
   final TextEditingController _usernameController = TextEditingController();
@@ -19,6 +21,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  void _register() {
+    if (_formKey.currentState?.validate() ?? false) {
+      ref.read(authProvider.notifier).register(
+            username: _usernameController.text,
+            password: _passwordController.text,
+          );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -131,12 +142,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             foregroundColor: Colors.black,
                           ),
                           onPressed: () {
-                            if (_formKey.currentState?.validate() ?? false) {
-                              AuthService().register(
-                                username: _usernameController.text,
-                                password: _passwordController.text,
-                              );
-                            }
+                            _register();
                           },
                           child: const Text(
                             'Ingresar',
