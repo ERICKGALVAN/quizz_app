@@ -7,15 +7,17 @@ class PasswordTextfield extends StatelessWidget {
     required this.onPressed,
     this.hintText,
     required this.controller,
+    this.validator,
   }) : super(key: key);
   final bool isPasswordVisible;
   final void Function() onPressed;
   final String? hintText;
   final TextEditingController controller;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       controller: controller,
       keyboardType: TextInputType.visiblePassword,
       obscureText: isPasswordVisible,
@@ -35,6 +37,7 @@ class PasswordTextfield extends StatelessWidget {
           ),
         ),
       ),
+      validator: validator,
     );
   }
 }
