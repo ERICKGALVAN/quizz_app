@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quizz_app/auth/presentation/providers/auth_provider.dart';
 import 'package:quizz_app/auth/presentation/providers/auth_screens_provider.dart';
-import 'package:quizz_app/auth/presentation/screens/register_screen.dart';
 import 'package:quizz_app/auth/presentation/widgets/password_textfield.dart';
-import 'package:quizz_app/config/routes/routes.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -64,6 +62,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         height: 20,
                       ),
                       TextFormField(
+                        key: const ValueKey('username'),
                         controller: _usernameController,
                         decoration: const InputDecoration(
                           hintText: 'Username',
