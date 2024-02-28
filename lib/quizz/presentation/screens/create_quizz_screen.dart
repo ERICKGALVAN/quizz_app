@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quizz_app/quizz/data/models/quizz_model.dart';
+import 'package:quizz_app/quizz/presentation/providers/quizz_provider.dart';
 
-class CreateQuizzScreen extends StatefulWidget {
+class CreateQuizzScreen extends ConsumerStatefulWidget {
   const CreateQuizzScreen({Key? key}) : super(key: key);
 
   @override
-  State<CreateQuizzScreen> createState() => _CreateQuizzScreenState();
+  ConsumerState<CreateQuizzScreen> createState() => _CreateQuizzScreenState();
 }
 
-class _CreateQuizzScreenState extends State<CreateQuizzScreen> {
+class _CreateQuizzScreenState extends ConsumerState<CreateQuizzScreen> {
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _questionController = TextEditingController();
@@ -23,7 +25,12 @@ class _CreateQuizzScreenState extends State<CreateQuizzScreen> {
 
   Future<void> _createQuizz() async {
     if ((_formKey.currentState?.validate() ?? false) && _questions.isNotEmpty) {
-      print('Imprimiendo');
+      final questions = _questions.map((e) => e.toJson()).toList();
+      ref.watch(quizzProvider.notifier).createQuizz(
+            name: _nameController.text,
+            description: _descriptionController.text,
+            questions: questions,
+          );
 
       _nameController.clear();
       _descriptionController.clear();
@@ -106,7 +113,7 @@ class _CreateQuizzScreenState extends State<CreateQuizzScreen> {
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 77, 117, 225),
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                       color: Colors.black,
@@ -177,7 +184,7 @@ class _CreateQuizzScreenState extends State<CreateQuizzScreen> {
                               },
                               icon: const Icon(
                                 Icons.add,
-                                color: Colors.white,
+                                color: Colors.black,
                               ),
                             ),
                           ],
