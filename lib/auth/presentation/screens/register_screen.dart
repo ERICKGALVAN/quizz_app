@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quizz_app/auth/data/datasources/auth_service.dart';
 import 'package:quizz_app/auth/presentation/providers/auth_provider.dart';
+import 'package:quizz_app/auth/presentation/providers/auth_screens_provider.dart';
 import 'package:quizz_app/auth/presentation/screens/login_screen.dart';
 import 'package:quizz_app/auth/presentation/widgets/password_textfield.dart';
 import 'package:quizz_app/config/routes/routes.dart';
@@ -153,10 +154,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         ),
                         TextButton(
                           onPressed: () {
-                            navigateAndRemove(
-                              context,
-                              const LoginScreen(),
-                            );
+                            ref.read(authScreensProvider.notifier).update(
+                                  (state) => AuthScreensEnum.login,
+                                );
                           },
                           child: const Text(
                             'Ya tengo una cuenta',
